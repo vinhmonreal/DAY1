@@ -131,7 +131,7 @@ def persistence(n):
 
 
 def info():
-    data = dict()
+    data = shopping_list()
     while True:
         respond = input("What do you want to do? ")
         if respond == "quit":
@@ -230,8 +230,149 @@ def caculator(product, quantity):
     total = round(total, 2)
     print(total , end = " dollars \n")
     return total
+
+
+# Write a function that takes two inputted lists of equal length and combines them into a single list by alternating elements. For example:
+# Given list1 = [1, 2, 3] and list2 = ['a', 'b', 'c']
+# The function should  return exactly this --->  [1, 'a', 2, 'b', 3, 'c'].
+def join_lists(list1, list2):
+    list = []
+    for i in range(len(list1)):
+        list.append(list1[i])
+        list.append(list2[i])
+    print(list)
     
-shoping_cart()
+    
+    join_lists = []
+    i = 0
+    y = 1
+    for item in list1:
+        join_lists.insert(i, item)
+        i += 2
+    for item in list2:
+        join_lists.insert(y, item)
+        y += 2
+    return join_lists
+
+
+class Cart():
+   
+    apple = .50
+    banana = .40
+    madarin = .30
+    avocado = .70
+    jackfruit = 10
+    mango = .80
+
+    def __init__(self, products, quantity):
+        self.products = products
+        self.quantity = quantity
+    def add(self):
+        price = 0
+        if self.products == 'apple':
+            price = price + (quantity * self.apple)
+        elif self.products == 'banana':
+            price = price + (quantity * self.banana)
+        elif self.products =='mandarin':
+            price = price + (quantity * self.madarin)
+        elif self.products =='mango':
+            price = price + (quantity * self.mango)
+        elif self.products == 'avocado':
+            price = price + (quantity * self.avocado)
+        elif self.products == 'jackfruit':
+            price = price + (quantity * self.jackfruit)
+        price = round(price, 2)
+        if self.products in availables.keys():
+            if self.products not in shopping_list.keys():
+                shopping_list[self.products] = {'quantity' : self.quantity,'price' : price}
+                print({price})
+            else:
+                shopping_list[self.products]['quantity'] = shopping_list[self.products]['quantity'] + quantity
+                shopping_list[self.products]['price'] = shopping_list[self.products]['price'] + price
+                print({price})
+        else:
+            print("Invalid product")
+
+    def remove(self):
+        if self.products in shopping_list.keys():
+            shopping_list[self.products]['quantity'] = shopping_list[self.products]['quantity'] - int(quantity)
+            if shopping_list[self.products]['quantity'] <= 0:
+                del shopping_list[self.products]
+            print('Removed successfully')
+        else:
+            print("Invalid Item")
+    def remove_all(self):
+        del shopping_list[self.products]
+        print('Removed successfully')
+
+shopping_list = {}
+    
+availables  = {
+        'apple' : '$ .50',
+        'banana' :'$ .40',
+        'mandarin' :'$ .30',
+        'mango' :'$ .80',
+        'avocado' :'$ .70',
+        'jackfruit' :'$ 10',
+    }
+
+while True:
+    res = input("Do you want to add / show/ remove / view / checkout / quit?").lower()
+    if res == "show":
+        print(availables)
+    if res == "add":
+        products = input("What products do you want to add?").lower() 
+        quantity = input("How many do you want to add? ")
+        if quantity.isdigit() and int(quantity) > 0:
+            quantity = int(quantity)
+            item_add = Cart(products, quantity)
+            item_add.add()
+        else:
+            print("Invalid quantity")
+    elif res == "remove":
+        if len(shopping_list) > 0:
+            print(shopping_list)
+            products = input("What products do you want to remove?").lower()
+            quantity = input(f"All of {products} or how many?").lower()      
+            remove_item = Cart(products, quantity)
+            if quantity == 'all':
+                remove_item.remove_all()
+            elif quantity.isdigit() and int(quantity) > 0:
+                quantity = int(quantity)
+                remove_item.remove()
+            else:
+                print("Invalid quantity")
+        else:
+            print("Your cart is empty")
+    elif res == "view":
+        if len(shopping_list) > 0:
+            print(shopping_list)
+        else:
+            print("Your cart is empty")
+    elif res == "checkout":
+        if len(shopping_list) == 0:
+            print("Your cart is empty")
+        else:
+            print(shopping_list)
+            total_purchase = 0
+            for value in shopping_list.values():
+                total_purchase += value['price']
+            print(f" Your total is ${total_purchase}.")
+            confirm = input("Yes or No? ").lower()
+            if confirm.lower() == "yes":
+                print('Thank you for shopping with us!')
+                break
+            else:
+                print('Canceled')
+    elif res == "quit":
+        print("Goodbye")
+        break
+        
+        
+
+
+
+
         
         
         
