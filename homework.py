@@ -66,13 +66,14 @@ def bst_decorator(func):
         result = BinarySearchTree(list[0])
         for i in list[1:]:
             result.add_Node(i)
-        result.print_in_order() #to print the tree in order
-        return  result
-    return wrapper(func)
+        func(result)
+    return wrapper
 
-def create_list():
-    return [20, 7, 4, 83, 0,-4, 7, 78, 66, 11, 15]
+@bst_decorator
+def print_bst(list):
+    list.print_in_order()
+    return
 
-print(bst_decorator(create_list())) # print object at a memory location
+print_bst([5, 3, 7, 1, 2, 6, 8])
 
 
